@@ -15,13 +15,21 @@ Convertit un temps au format "1:33.996" en nombre de secondes . Découpe : multi
 02-java/src/                 maillon 2 — Classement.java à compléter
 1 
 On parcourt chaque ligne et on cumule dans un dictionnaire les points victoires et 2e places pour chaque pilote.
-On transforme ce dictionnaire en liste pour pouvoir la trier.
-On trie la liste par points décroissants, puis victoires, puis 2e places, puis nom alphabétique.
+On transforme ce dictionnaire en liste pour pouvoir la trier
+On trie la liste par points décroissants, puis victoires, puis 2e places, puis nom alphabétique
 
 
-2 On parcourt chaque course pour accumuler dans un dictionnaire les points, victoires et 2e places de chaque pilote.
-On convertit ce dictionnaire en liste pour pouvoir la trier.
-On trie la liste par points, puis victoires, puis 2e places, puis nom a => z.
+2 On parcourt chaque course pour accumuler dans un dictionnaire les points victoires et 2e places de chaque pilote
+On convertit ce dictionnaire en liste pour pouvoir la trier
+On trie la liste par points, puis victoires, puis 2e places, puis nom a => z
+
+3.On parcourt chaque pilote et on cumule dans une HashMap les points, victoires et 2e places de son écurie
+On convertit la HashMap en ArrayList pour pouvoir la trier
+On trie avec les mêmes critères que le classement pilotes 
+
+4.On parcourt chaque course du pilote et on additionne ses positions en ignorant les abandons
+On compte combien de courses terminées il a pour calculer la moyenne
+On renvoie la moyenne arrondie à 2 décimales ou 0 s'il n'a jamais terminé
 
 03-js/                       maillon 3 — app.js à compléter, index.html à ouvrir
 secours/                     résultats de référence, en cas de blocage

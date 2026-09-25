@@ -101,8 +101,39 @@ public class Classement {
     // 3. classementEcuries(pilotes) : additionne les points, victoires et
     //    2e places des pilotes de chaque écurie. Même ordre de tri.
     public static List<Resultat> classementEcuries(List<Resultat> pilotes) {
-        // À COMPLÉTER
-        return null;
+    
+        // 1) Dictionnaire : nom de l'écurie → Resultat
+        Map<String, Resultat> parEcurie = new HashMap<>();
+        
+        // 2) On parcourt chaque pilote
+        for (Resultat p : pilotes) {
+            
+            // 3) On récupère l'écurie du pilote, ou on la crée
+            Resultat r = parEcurie.get(p.ecurie);
+            if (r == null) {
+                r = new Resultat(p.ecurie, "");
+                parEcurie.put(p.ecurie, r);
+            }
+            
+            // 4) On additionne les stats du pilote à celles de l'écurie
+            r.points    += p.points;
+            r.victoires += p.victoires;
+            r.deuxiemes += p.deuxiemes;
+        }
+        
+        // 5) On convertit le dictionnaire en liste
+        List<Resultat> resultats = new ArrayList<>(parEcurie.values());
+        
+        // 6) On trie (mêmes critères que les pilotes)
+        resultats.sort((a, b) -> {
+            if (a.points != b.points) return b.points - a.points;
+            if (a.victoires != b.victoires) return b.victoires - a.victoires;
+            if (a.deuxiemes != b.deuxiemes) return b.deuxiemes - a.deuxiemes;
+            return a.nom.compareTo(b.nom);
+        });
+        
+        // 7) On renvoie la liste triée
+        return resultats;
     }
 
     // 4. positionMoyenne(lignes, pilote) : moyenne des positions de ce pilote,
@@ -110,6 +141,33 @@ public class Classement {
     //    Ex. positions 1, 2 et un abandon -> 1.5
     public static double positionMoyenne(List<Ligne> lignes, String pilote) {
         // À COMPLÉTER
+       
+    
+    // 1) Accumulateurs : somme des positions, et nombre de courses terminées
+    int somme = 0;
+    int nbCourses = 0;
+    
+    // 2) On parcourt chaque ligne (course)
+    for (Ligne ligne : lignes) {
+        
+        // 3) On ne garde que les courses de CE pilote
+        if (ligne.pilote().equals(pilote)) {
+            
+            // 4) On ignore les abandons (position 0)
+            if (ligne.position() != 0) {
+                somme += ligne.position();
+                nbCourses++;
+            }
+        }
+    }
+    
+    // 5) Si aucune course terminée → 0
+    if (nbCourses == 0) {
         return 0;
     }
+    
+    // 6) Moyenne arrondie à 2 décimales
+    double moyenne = (double) somme / nbCourses;
+    return Math.round(moyenne * 100.0) / 100.0;
+}
 }
