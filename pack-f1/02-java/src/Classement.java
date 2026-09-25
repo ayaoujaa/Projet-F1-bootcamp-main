@@ -7,7 +7,10 @@
        java -Dstdout.encoding=UTF-8 -cp out Main      (la production)
    ========================================================================= */
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Classement {
 
@@ -35,10 +38,65 @@ public class Classement {
     // 2. classementPilotes(lignes) : un Resultat par pilote, avec ses points,
     //    ses victoires (position 1) et ses 2e places, trié par :
     //    points décroissants, puis victoires, puis 2e places, puis nom (A→Z).
-    public static List<Resultat> classementPilotes(List<Ligne> lignes) {
-        // À COMPLÉTER
-        return null;
+  public static List<Resultat> classementPilotes(List<Ligne> lignes) {
+    
+   
+    Map<String, Resultat> parPilote = new HashMap<>();
+    
+    
+    for (Ligne ligne : lignes) {
+        
+        // On récupère les infos de la ligne
+        String nom = ligne.pilote();
+        String ecurie = ligne.ecurie();
+        int position = ligne.position();
+        
+        Resultat r = parPilote.get(nom);
+        
+        
+        if (r == null) {
+            r = new Resultat(nom, ecurie);   
+            parPilote.put(nom, r);
+        }
+        
+       
+        r.points = r.points + pointsPourPosition(position);
+        
+        
+        if (position == 1) {
+            r.victoires = r.victoires + 1;
+        }
+        
+        
+        if (position == 2) {
+            r.deuxiemes = r.deuxiemes + 1;
+        }
     }
+    
+    
+    List<Resultat> resultats = new ArrayList<>(parPilote.values());
+    
+    //  On trie la liste
+    resultats.sort((a, b) -> {
+      
+        if (a.points != b.points) {
+            return b.points - a.points;
+        }
+        
+        if (a.victoires != b.victoires) {
+            return b.victoires - a.victoires;
+        }
+        
+        if (a.deuxiemes != b.deuxiemes) {
+            return b.deuxiemes - a.deuxiemes;
+        }
+       
+        return a.nom.compareTo(b.nom);  
+    });
+    
+    
+    return resultats;
+}
 
     // 3. classementEcuries(pilotes) : additionne les points, victoires et
     //    2e places des pilotes de chaque écurie. Même ordre de tri.
